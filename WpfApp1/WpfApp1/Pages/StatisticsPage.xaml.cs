@@ -24,12 +24,10 @@ namespace WpfApp1.Pages
         {
             using (var db = new BankDbContext())
             {
-                // Подтягиваем данные с продуктами
                 var loans = db.Займы.Include(z => z.Продукт).ToList();
 
                 if (!loans.Any()) return;
 
-                // 1. КРУГОВАЯ ДИАГРАММА: Количество займов по каждому продукту
                 var productGroups = loans.GroupBy(z => z.Продукт.Название)
                                          .Select(g => new { Name = g.Key, Count = g.Count() });
 
@@ -45,7 +43,6 @@ namespace WpfApp1.Pages
                 }
                 ChartProducts.Series = pieSeries;
 
-                // 2. СТОЛБЧАТЫЙ ГРАФИК: Общая сумма выданного бабла по продуктам
                 var amountGroups = loans.GroupBy(z => z.Продукт.Название)
                                         .Select(g => new { Name = g.Key, Total = g.Sum(z => z.Сумма_Займа) })
                                         .ToList();
