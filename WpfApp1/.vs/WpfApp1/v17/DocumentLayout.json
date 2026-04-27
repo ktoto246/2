@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|d:\\\u043A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0432\u0430\u043D\u044F\\wpfapp1\\wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|d:\\\u043A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0432\u0430\u043D\u044F\\wpfapp1\\wpfapp1\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|d:\\\u043A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0432\u0430\u043D\u044F\\wpfapp1\\wpfapp1\\pages\\statisticspage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\pages\\statisticspage.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|d:\\\u043A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0432\u0430\u043D\u044F\\wpfapp1\\wpfapp1\\pages\\statisticspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F3368AFB-5349-48E6-AC27-1AE730F0DD28}|WpfApp1\\WpfApp1.csproj|solutionrelative:wpfapp1\\pages\\statisticspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 228,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAACoAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T16:01:24.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\MainWindow.xaml",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\MainWindow.xaml",
+              "RelativeToolTip": "WpfApp1\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-04-27T16:01:22.986Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StatisticsPage.xaml.cs",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\Pages\\StatisticsPage.xaml.cs",
+              "RelativeDocumentMoniker": "WpfApp1\\Pages\\StatisticsPage.xaml.cs",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\Pages\\StatisticsPage.xaml.cs",
+              "RelativeToolTip": "WpfApp1\\Pages\\StatisticsPage.xaml.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAmwEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T16:01:01.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StatisticsPage.xaml",
+              "DocumentMoniker": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\Pages\\StatisticsPage.xaml",
+              "RelativeDocumentMoniker": "WpfApp1\\Pages\\StatisticsPage.xaml",
+              "ToolTip": "D:\\\u041A\u0443\u0440\u0441\u043E\u0432\u044B\u0435\\\u0412\u0430\u043D\u044F\\WpfApp1\\WpfApp1\\Pages\\StatisticsPage.xaml",
+              "RelativeToolTip": "WpfApp1\\Pages\\StatisticsPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-04-27T16:00:44.988Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

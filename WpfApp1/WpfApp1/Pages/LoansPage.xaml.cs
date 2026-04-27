@@ -1,0 +1,197 @@
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Microsoft.EntityFrameworkCore;
+using WpfApp1.Models;
+
+namespace WpfApp1.Pages
+{
+    /// <summary>
+    /// Логика взаимодействия для LoansPage.xaml
+    /// </summary>
+    public partial class LoansPage : Page
+    {
+        private readonly BankDbContext _context;
+        private Займ? _currentLoan;
+        private ICollectionView? _loansView;
+
+        public LoansPage()
+        {
+            InitializeComponent();
+            _context = new BankDbContext();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            _context.Клиенты.Load();
+            _context.Кредитные_Продукты.Load();
+            _context.Займы.Load();
+
+            CmbClient.ItemsSource = _context.Клиенты.Local.ToList();
+            CmbClient.DisplayMemberPath = "ФИО";
+            CmbClient.SelectedValuePath = "ID_Клиента";
+
+            CmbProduct.ItemsSource = _context.Кредитные_Продукты.Local.ToList();
+            CmbProduct.DisplayMemberPath = "Название";
+            CmbProduct.SelectedValuePath = "ID_Продукта";
+
+            CmbStatus.ItemsSource = new[] { "Активен", "Закрыт", "Просрочен" };
+            CmbStatus.SelectedIndex = 0;
+
+            FilterStatusCombo.ItemsSource = new[] { "Все", "Активен", "Закрыт", "Просрочен" };
+            FilterStatusCombo.SelectedIndex = 0;
+
+            LoansGrid.ItemsSource = _context.Займы.Local.ToObservableCollection();
+
+            if (LoansGrid.ItemsSource != null)
+            {
+                _loansView = CollectionViewSource.GetDefaultView(LoansGrid.ItemsSource);
+                _loansView.Filter = FilterLoans;
+            }
+            ClearForm();
+        }
+
+        private bool FilterLoans(object obj)
+        {
+            if (obj is not Займ item)
+                return false;
+
+            string search = SearchTextBox.Text?.ToLower() ?? string.Empty;
+            string filterStatus = FilterStatusCombo.SelectedItem as string ?? "Все";
+
+            bool matchesSearch = string.IsNullOrWhiteSpace(search) ||
+                                 item.Клиент.ФИО.ToLower().Contains(search) ||
+                                 item.ID_Займа.ToString().Contains(search);
+
+            bool matchesStatus = filterStatus == "Все" || item.Статус == filterStatus;
+
+            return matchesSearch && matchesStatus;
+        }
+
+        private void LoansGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LoansGrid.SelectedItem is Займ selected)
+            {
+                _currentLoan = selected;
+                CmbClient.SelectedValue = selected.ID_Клиента;
+                CmbProduct.SelectedValue = selected.ID_Продукта;
+                TxtAmount.Text = selected.Сумма_Займа.ToString();
+                DpIssueDate.SelectedDate = selected.Дата_Выдачи;
+                CmbStatus.SelectedItem = selected.Статус;
+            }
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (CmbClient.SelectedValue == null || CmbProduct.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента и продукт!", "Внимание");
+                return;
+            }
+
+            string amountStr = TxtAmount.Text.Trim();
+            DateTime? issueDate = DpIssueDate.SelectedDate;
+
+            if (!IsDataValid(amountStr, issueDate))
+                return;
+
+            int clientId = (int)CmbClient.SelectedValue;
+            int productId = (int)CmbProduct.SelectedValue;
+            decimal amount = decimal.Parse(amountStr);
+            string status = CmbStatus.SelectedItem as string ?? "Активен";
+
+            try
+            {
+                var product = _context.Кредитные_Продукты.Find(productId);
+                if (product == null)
+                {
+                    MessageBox.Show("Выбранный продукт не найден!", "Ошибка");
+                    return;
+                }
+
+                if (amount > product.Макс_Сумма)
+                {
+                    MessageBox.Show($"Сумма займа не должна превышать максимальную сумму продукта ({product.Макс_Сумма})!", "Ошибка");
+                    return;
+                }
+
+                if (_currentLoan == null)
+                {
+                    var newLoan = new Займ
+                    {
+                        ID_Клиента = clientId,
+                        ID_Продукта = productId,
+                        Сумма_Займа = amount,
+                        Дата_Выдачи = issueDate.Value,
+                        Статус = status
+                    };
+                    _context.Займы.Add(newLoan);
+                    _currentLoan = newLoan;
+                }
+                else
+                {
+                    _currentLoan.ID_Клиента = clientId;
+                    _currentLoan.ID_Продукта = productId;
+                    _currentLoan.Сумма_Займа = amount;
+                    _currentLoan.Дата_Выдачи = issueDate.Value;
+                    _currentLoan.Статус = status;
+                }
+
+                _context.SaveChanges();
+                LoansGrid.Items.Refresh();
+                MessageBox.Show("Данные успешно сохранены!", "Ок", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"База данных дала сбой: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentLoan != null && MessageBox.Show("Удалить?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                _context.Займы.Remove(_currentLoan);
+                _context.SaveChanges();
+                ClearForm();
+            }
+        }
+
+        private void ClearBtn_Click(object sender, RoutedEventArgs e) => ClearForm();
+
+        private void ClearForm()
+        {
+            LoansGrid.SelectedItem = null;
+            _currentLoan = null;
+            CmbClient.SelectedIndex = -1;
+            CmbProduct.SelectedIndex = -1;
+            TxtAmount.Text = string.Empty;
+            DpIssueDate.SelectedDate = null;
+            CmbStatus.SelectedIndex = 0;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e) => _loansView?.Refresh();
+        private void FilterStatusCombo_SelectionChanged(object sender, SelectionChangedEventArgs e) => _loansView?.Refresh();
+
+        private bool IsDataValid(string amountStr, DateTime? issueDate)
+        {
+            if (!decimal.TryParse(amountStr, out decimal amount) || amount <= 0)
+            {
+                MessageBox.Show("Сумма займа должна быть числом больше нуля!", "Ошибка");
+                return false;
+            }
+
+            if (issueDate == null)
+            {
+                MessageBox.Show("Укажите дату выдачи займа!", "Внимание");
+                return false;
+            }
+
+            return true;
+        }
+    }
+}

@@ -1,0 +1,156 @@
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Microsoft.EntityFrameworkCore;
+using WpfApp1.Models;
+
+namespace WpfApp1.Pages
+{
+    public partial class CreditProductsPage : Page
+    {
+        private readonly BankDbContext _context;
+        private Кредитный_Продукт? _currentProduct;
+        private ICollectionView? _productsView;
+
+        public CreditProductsPage()
+        {
+            InitializeComponent();
+            _context = new BankDbContext();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            _context.Кредитные_Продукты.Load();
+            ProductsGrid.ItemsSource = _context.Кредитные_Продукты.Local.ToObservableCollection();
+
+            if (ProductsGrid.ItemsSource != null)
+            {
+                _productsView = CollectionViewSource.GetDefaultView(ProductsGrid.ItemsSource);
+                _productsView.Filter = (obj) =>
+                {
+                    if (obj is Кредитный_Продукт item)
+                    {
+                        string search = SearchTextBox.Text?.ToLower() ?? "";
+                        return string.IsNullOrWhiteSpace(search) ||
+                               item.Название.ToLower().Contains(search);
+                    }
+                    return false;
+                };
+            }
+            ClearForm();
+        }
+
+        private void ProductsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProductsGrid.SelectedItem is Кредитный_Продукт selected)
+            {
+                _currentProduct = selected;
+                TxtName.Text = selected.Название;
+                TxtRate.Text = selected.Процентная_Ставка.ToString();
+                TxtMaxAmount.Text = selected.Макс_Сумма.ToString();
+                TxtMaxTerm.Text = selected.Макс_Срок_Месяцев.ToString();
+            }
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string name = TxtName.Text.Trim();
+            string rateStr = TxtRate.Text.Trim();
+            string maxAmountStr = TxtMaxAmount.Text.Trim();
+            string maxTermStr = TxtMaxTerm.Text.Trim();
+
+            if (!IsDataValid(name, rateStr, maxAmountStr, maxTermStr))
+            {
+                return;
+            }
+
+            decimal rate = decimal.Parse(rateStr);
+            decimal maxAmount = decimal.Parse(maxAmountStr);
+            int maxTerm = int.Parse(maxTermStr);
+
+            try
+            {
+                if (_currentProduct == null)
+                {
+                    var newProduct = new Кредитный_Продукт
+                    {
+                        Название = name,
+                        Процентная_Ставка = rate,
+                        Макс_Сумма = maxAmount,
+                        Макс_Срок_Месяцев = maxTerm
+                    };
+                    _context.Кредитные_Продукты.Add(newProduct);
+                    _currentProduct = newProduct;
+                }
+                else
+                {
+                    _currentProduct.Название = name;
+                    _currentProduct.Процентная_Ставка = rate;
+                    _currentProduct.Макс_Сумма = maxAmount;
+                    _currentProduct.Макс_Срок_Месяцев = maxTerm;
+                }
+
+                _context.SaveChanges();
+                ProductsGrid.Items.Refresh();
+                MessageBox.Show("Данные успешно сохранены!", "Ок", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"База данных дала сбой: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentProduct != null && MessageBox.Show("Удалить?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                _context.Кредитные_Продукты.Remove(_currentProduct);
+                _context.SaveChanges();
+                ClearForm();
+            }
+        }
+
+        private void ClearBtn_Click(object sender, RoutedEventArgs e) => ClearForm();
+
+        private void ClearForm()
+        {
+            ProductsGrid.SelectedItem = null;
+            _currentProduct = null;
+            TxtName.Text = TxtRate.Text = TxtMaxAmount.Text = TxtMaxTerm.Text = string.Empty;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e) => _productsView?.Refresh();
+
+        private bool IsDataValid(string name, string rateStr, string maxAmountStr, string maxTermStr)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Название продукта должно быть заполнено!", "Внимание");
+                return false;
+            }
+
+            if (!decimal.TryParse(rateStr, out decimal rate) || rate <= 0)
+            {
+                MessageBox.Show("Процентная ставка должна быть числом больше нуля!", "Ошибка");
+                return false;
+            }
+
+            if (!decimal.TryParse(maxAmountStr, out decimal maxAmount) || maxAmount <= 0)
+            {
+                MessageBox.Show("Максимальная сумма должна быть числом больше нуля!", "Ошибка");
+                return false;
+            }
+
+            if (!int.TryParse(maxTermStr, out int maxTerm) || maxTerm <= 0)
+            {
+                MessageBox.Show("Максимальный срок должен быть целым числом больше нуля!", "Ошибка");
+                return false;
+            }
+
+            return true;
+        }
+    }
+}

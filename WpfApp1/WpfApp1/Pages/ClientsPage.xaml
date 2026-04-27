@@ -1,0 +1,60 @@
+﻿<Page x:Class="WpfApp1.Pages.ClientsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Клиенты" Background="White">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Данные клиента" Margin="0,0,0,15" Padding="10">
+            <StackPanel>
+                <UniformGrid Columns="4" Margin="0,0,0,10">
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="ФИО:"/>
+                        <TextBox x:Name="TxtFullName" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Паспорт:"/>
+                        <TextBox x:Name="TxtPassport" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Телефон:"/>
+                        <TextBox x:Name="TxtPhone" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Дата рождения:"/>
+                        <DatePicker x:Name="DpBirthDate"/>
+                    </StackPanel>
+                </UniformGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Сохранить" Click="SaveBtn_Click" Width="100" Margin="5" Background="#28A745" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="Новый" Click="ClearBtn_Click" Width="100" Margin="5" Background="#6C757D" Foreground="White"/>
+                    <Button Content="Удалить" Click="DeleteBtn_Click" Width="100" Margin="5" Background="#DC3545" Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Поиск по списку:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold"/>
+            <TextBox x:Name="SearchTextBox" Width="300" Padding="3" TextChanged="SearchTextBox_TextChanged"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ClientsGrid" Grid.Row="2" AutoGenerateColumns="False" 
+                  IsReadOnly="True" SelectionMode="Single" 
+                  SelectionChanged="ClientsGrid_SelectionChanged" RowHeight="30"
+                  HeadersVisibility="Column" GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID_Клиента}" Width="50"/>
+                <DataGridTextColumn Header="ФИО клиента" Binding="{Binding ФИО}" Width="*"/>
+                <DataGridTextColumn Header="Паспортные данные" Binding="{Binding Паспортные_Данные}" Width="150"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Телефон}" Width="150"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Дата_Рождения, StringFormat=\{0:dd.MM.yyyy\}}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

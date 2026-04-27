@@ -1,0 +1,60 @@
+﻿<Page x:Class="WpfApp1.Pages.КредитныеПродуктыPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Кредитные продукты" Background="White">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Данные кредитного продукта" Margin="0,0,0,15" Padding="10">
+            <StackPanel>
+                <UniformGrid Columns="4" Margin="0,0,0,10">
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Название:"/>
+                        <TextBox x:Name="TxtName" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Процентная ставка (%):"/>
+                        <TextBox x:Name="TxtRate" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Макс. сумма:"/>
+                        <TextBox x:Name="TxtMaxAmount" Padding="3"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <TextBlock Text="Макс. срок (месяцев):"/>
+                        <TextBox x:Name="TxtMaxTerm" Padding="3"/>
+                    </StackPanel>
+                </UniformGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Сохранить" Click="SaveBtn_Click" Width="100" Margin="5" Background="#28A745" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="Новый" Click="ClearBtn_Click" Width="100" Margin="5" Background="#6C757D" Foreground="White"/>
+                    <Button Content="Удалить" Click="DeleteBtn_Click" Width="100" Margin="5" Background="#DC3545" Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Поиск по названию:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold"/>
+            <TextBox x:Name="SearchTextBox" Width="300" Padding="3" TextChanged="SearchTextBox_TextChanged"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ProductsGrid" Grid.Row="2" AutoGenerateColumns="False" 
+                  IsReadOnly="True" SelectionMode="Single" 
+                  SelectionChanged="ProductsGrid_SelectionChanged" RowHeight="30"
+                  HeadersVisibility="Column" GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID_Продукта}" Width="50"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Название}" Width="*"/>
+                <DataGridTextColumn Header="Процентная ставка (%)" Binding="{Binding Процентная_Ставка, StringFormat={0:F2}}" Width="150"/>
+                <DataGridTextColumn Header="Макс. сумма" Binding="{Binding Макс_Сумма, StringFormat={0:F2}}" Width="120"/>
+                <DataGridTextColumn Header="Макс. срок (месяцев)" Binding="{Binding Макс_Срок_Месяцев}" Width="140"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
