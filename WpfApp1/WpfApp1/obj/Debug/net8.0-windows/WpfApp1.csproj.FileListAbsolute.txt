@@ -155,3 +155,4 @@ D:\Курсовые\Ваня\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\LiveCharts
 D:\Курсовые\Ваня\WpfApp1\WpfApp1\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
 D:\Курсовые\Ваня\WpfApp1\WpfApp1\obj\Debug\net8.0-windows\Pages\StatisticsPage.baml
 D:\Курсовые\Ваня\WpfApp1\WpfApp1\obj\Debug\net8.0-windows\Pages\StatisticsPage.g.cs
+D:\Курсовые\Ваня\WpfApp1\WpfApp1\obj\Debug\net8.0-windows\WpfApp1.sourcelink.json
